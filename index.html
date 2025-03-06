@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>IronGym</title>
+</head>
+<body>
+    <h1>IronGym</h1>
+    <h3>Faça seu cadastro para acessar nossa academia!</h3>
+<form>
+
+    <h3>Cadastro</h3>
+    <input type="text" placeholder="Login" id="login">
+    <input type="password" placeholder="Senha" id="senha">
+    <input type="tel" placeholder="Telefone" id="telefone">
+    <input type="email" placeholder="Email" id="email">
+    <input type="submit" onclick="logar(); return false">
+
+</form>
+
+<footer>
+    <p>&copy; 2025 IronGym</p>
+</footer>
+
+<script>
+
+
+    function logar(){
+
+        var login = document.getElementById('login').value;
+        var senha = document.getElementById('senha').value;
+        var telefone = document.getElementById('telefone').value;
+        var email = document.getElementById('email').value;
+
+        if(login == "admin" && senha == "admin"){
+            alert('Sucesso');
+            location.href = "home.html";
+        }else{
+            alert('Usuario ou senha incorretos');
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
