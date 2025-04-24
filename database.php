@@ -1,27 +1,20 @@
+class Database {
+    private $host = "localhost"; 
+    private $DBName = "example_poo"; 
+    private $username = "root"; 
+    private $password = ""; 
+    private $conn;
 
-class Database{
-Private $host = "Localhost".
-Private $DBName = "example_poo":
-Private $username = "root".
-Private $Password=””;
-Private $conn;
+    public function __construct() { 
+        try {
+            $this->conn = new PDO("mysql:host={$this->host};dbname={$this->DBName}", $this->username, $this->password); 
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+        } catch (PDOException $e) { 
+            die("Erro de conexão: " . $e->getMessage()); 
+        }
+    }
 
-Public function_cosntruct (){
-
-Try {this -> conn = new pdo ("mySQL: host ={ This -> host}, DBName= {$this DBName}", $this->username, this ->password);
-
-This -> conn -> set atribute (PDO:: oter-errmode - exception);
-
-}
-
-Catch (pdo exception $e {
-
-Die (erro de conexão:."$E -> GetMessage());
-
-}
-Public function Get Connection ()
-}
-
-Return $this -> conn;
- }
+    public function getConnection() { 
+        return $this->conn; 
+    }
 }

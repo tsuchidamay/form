@@ -1,18 +1,13 @@
-$ServerName = "Localhost";
-$Username = "root";
-$Password= “”;
-$DBNome = "Meu banco";
+$serverName = "localhost"; 
+$username = "root"; 
+$password = ""; 
+$dbNome = "Meu banco"; 
 
-// Criando conexão
 
-$conn = New mySQL ($Servername,$username)
+$conn = new mysqli($serverName, $username, $password, $dbNome); 
 
-// Verificando a conexão
-
-if ($conn -> connect _ERROR) {
-
-Die ("falha na conexão: "- $conn -> conne
-
+if ($conn->connect_error) { // Corrigido para "connect_error"
+    die("Falha na conexão: " . $conn->connect_error); 
 }
 
-Echo "conectado com sucesso!",
+echo "Conectado com sucesso!"; 

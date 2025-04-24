@@ -1,39 +1,41 @@
-require_once 'database.php'
-class usuario{
-protect$DB;
-protect$Nome; 
-protect$email;
-protect$senha;
+require_once 'database.php';
 
-public function_construct($nome,$email,$senha){
-$this -> DB=(new database()) ->Get Connection();
+class Usuario {
+    protected $DB;
+    protected $nome; 
+    protected $email;
+    protected $senha;
 
-$this -> nome = $nome;
-$this -> email = $email;
-$this -> senha = password_has(senha, password_default);
-}
+    public function __construct($nome, $email, $senha) {
+        $this->DB = (new Database())->getConnection(); 
 
-Public function salvar () {
-$SQL = “insert into usuarios (nome,email,senha, tipo)
- Valves (nome;email;senha;usuário;)”;
+        $this->nome = $nome;
+        $this->email = $email;
+        $this->senha = password_hash($senha, PASSWORD_DEFAULT); 
+    }
 
-$STMT = $this -> DB -> prepare ($SQL);
-$STMT -> Bindparon(‘:nome $this -> nome);
-$STMT -> Bindparon(‘:email $this ->email);
-$STMT -> Bindparon(‘:senha$this ->senha);
+    public function salvar() {
+        $SQL = "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (:nome, :email, :senha, 'usuário')"; 
 
-Return $STMT -> execute);
-}
+        $STMT = $this->DB->prepare($SQL);
+        $STMT->bindParam(':nome', $this->nome); 
+        $STMT->bindParam(':email', $this->email); 
+        $STMT->bindParam(':senha', $this->senha); 
 
-Public function login($email, $senha){
-$SQL = “select * from usuarios where email =:email”;
-$STMT -> Bindparom (‘email’,$email);
-$STMT -> execute ();
-$Usuario = $ -> fetch (pdo:: fetch_assoc);
+        return $STMT->execute(); 
+    }
 
-if ($usuário && password_verify($senha, $usuario[‘senha])){
-return “Login bem-sucedido. Bem-vindo”;
-$Usuario [‘nome’];
-return “email ou senha incorretos”;
-}
+    public function login($email, $senha) {
+        $SQL = "SELECT * FROM usuarios WHERE email = :email"; 
+        $STMT = $this->DB->prepare($SQL); 
+        $STMT->bindParam(':email', $email); 
+        $STMT->execute(); 
+
+        $usuario = $STMT->fetch(PDO::FETCH_ASSOC); 
+
+        if ($usuario && password_verify($senha, $usuario['senha'])) { 
+            return "Login bem-sucedido. Bem-vindo " . $usuario['nome']; 
+        }
+        return "Email ou senha incorretos"; 
+    }
 }
