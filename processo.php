@@ -1,13 +1,14 @@
-$serverName = "localhost"; 
-$username = "root"; 
-$password = ""; 
-$dbNome = "Meu banco"; 
+<?php
+require_once 'Usuario.php';
 
+$email = $_POST['email'];
+$senha = $_POST['senha'];
 
-$conn = new mysqli($serverName, $username, $password, $dbNome); 
+$usuario = new Usuario();
 
-if ($conn->connect_error) { // Corrigido para "connect_error"
-    die("Falha na conexão: " . $conn->connect_error); 
+if ($usuario->login($email, $senha)) {
+    echo "<script>alert('Login feito com sucesso!'); window.location.href='home.html';</script>";
+} else {
+    echo "<script>alert('Email ou senha inválidos'); window.location.href='index.html';</script>";
 }
-
-echo "Conectado com sucesso!"; 
+?>

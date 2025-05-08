@@ -1,41 +1,26 @@
-require_once 'database.php';
+php
+<?php
+require_once 'Database.php';
 
 class Usuario {
-    protected $DB;
-    protected $nome; 
-    protected $email;
-    protected $senha;
+    protected $db;
 
-    public function __construct($nome, $email, $senha) {
-        $this->DB = (new Database())->getConnection(); 
-
-        $this->nome = $nome;
-        $this->email = $email;
-        $this->senha = password_hash($senha, PASSWORD_DEFAULT); 
-    }
-
-    public function salvar() {
-        $SQL = "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (:nome, :email, :senha, 'usuário')"; 
-
-        $STMT = $this->DB->prepare($SQL);
-        $STMT->bindParam(':nome', $this->nome); 
-        $STMT->bindParam(':email', $this->email); 
-        $STMT->bindParam(':senha', $this->senha); 
-
-        return $STMT->execute(); 
+    public function __construct() {
+        $this->db = (new Database())->getConnection();
     }
 
     public function login($email, $senha) {
-        $SQL = "SELECT * FROM usuarios WHERE email = :email"; 
-        $STMT = $this->DB->prepare($SQL); 
-        $STMT->bindParam(':email', $email); 
-        $STMT->execute(); 
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $usuario = $STMT->fetch(PDO::FETCH_ASSOC); 
-
-        if ($usuario && password_verify($senha, $usuario['senha'])) { 
-            return "Login bem-sucedido. Bem-vindo " . $usuario['nome']; 
+        if ($usuario && password_verify($senha, $usuario['senha'])) {
+            return true;
         }
-        return "Email ou senha incorretos"; 
+        return false;
     }
 }
+?>
+
